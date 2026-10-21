@@ -11,7 +11,8 @@
 #define EXPRESSION_H
 
 class Expression {
-public: 
+public:
+    virtual ~Expression() = default;
     virtual double evaluate() = 0;
 };
 
