@@ -11,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include <cstddef>
 using namespace std;
 
 #include "symboltable.h"
@@ -19,7 +20,7 @@ using namespace std;
 void SymbolTable::insert(string variable, double value) {
 
     //Ensuring variable has not been initialized already
-    for (int i = 0; i < elements.size(); i++) {
+    for (std::size_t i = 0; i < elements.size(); i++) {
         if (elements[i].variable == variable)
             throw VariableException("The variable " + variable + " has already been initialized");
     }
@@ -29,7 +30,7 @@ void SymbolTable::insert(string variable, double value) {
 }
 
 double SymbolTable::lookUp(string variable) const {
-    for (int i = 0; i < elements.size(); i++)
+    for (std::size_t i = 0; i < elements.size(); i++)
         if (elements[i].variable == variable)
              return elements[i].value;
 

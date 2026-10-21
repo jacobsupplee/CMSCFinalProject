@@ -1,4 +1,23 @@
 /Debug
+# Visual Studio files
+.vs/
+.vscode/
+
+# Build output
+/Debug/
+/Release/
+/x64/
+/x86/
+
+# Compiled files
 *.o
+*.obj
 *.d
 *.exe
+*.pdb
+*.ilk
+*.pch
+
+# User-specific settings
+*.user
+*.suo
