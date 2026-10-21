@@ -23,14 +23,15 @@ SymbolTable symbolTable;
 
 void parseAssignments(stringstream& in);
 
-int main() {
+int main(int argc, char* argv[]) {
     const int SIZE = 256;
     unique_ptr<Expression> expression;
     char paren, comma, line[SIZE];
 
-    ifstream fin("input.txt");
+    const char* inputFile = (argc > 1) ? argv[1] : "input.txt";
+    ifstream fin(inputFile);
     if (!fin.is_open()) {
-        cout << "File did not open" << endl;
+        cout << "Could not open input file: " << inputFile << endl;
         system("pause");
         return 1;
     }
