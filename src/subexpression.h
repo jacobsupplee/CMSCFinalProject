@@ -11,18 +11,19 @@
 #ifndef SUBEXPRESSION_H
 #define SUBEXPRESSION_H
 
-#include <sstream>       //Include stringstream
-#include "expression.h"  //Include expression class
+#include <memory>         // Include unique_ptr
+#include <sstream>         // Include stringstream
+#include "expression.h"   // Include expression class
 
-//Prevent multiple definitions of the SubExpression class.
+// Prevent multiple definitions of the SubExpression class.
 
 class SubExpression: public Expression {
 public:
     SubExpression(Expression* left, Expression* right);
     static Expression* parse(std::stringstream& in);  // Use the standard stringstream type
-protected: 
-    Expression* left;
-    Expression* right;
+protected:
+    std::unique_ptr<Expression> left;
+    std::unique_ptr<Expression> right;
 };
 
 #endif

@@ -30,9 +30,8 @@ using namespace std;
 #include "ternary.h"
 #include "quaternary.h"
 
-SubExpression::SubExpression(Expression* left, Expression* right) {
-    this->left = left;
-    this->right = right;
+SubExpression::SubExpression(Expression* left, Expression* right)
+    : left(left), right(right) {
 }
 
 Expression* SubExpression::parse(stringstream& in) {
@@ -101,4 +100,3 @@ Expression* SubExpression::parse(stringstream& in) {
 
     return 0;
 }
-        
