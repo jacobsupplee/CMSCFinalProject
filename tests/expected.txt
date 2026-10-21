@@ -19,4 +19,4 @@
 (x + 1), y = 2; The variable x is not initialized
 (a + 1), a = 1, a = 2; The variable a has already been initialized
 (a + 1), a = ; Invalid input: Invalid numeric value for variable a
-(a + 1), a = 2; unexpected; Invalid input: Unexpected characters after ';'
+(a + 1), a = 2; unexpected Invalid input: Unexpected characters after ';'
