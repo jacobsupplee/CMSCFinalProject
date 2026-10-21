@@ -6,6 +6,7 @@
 
 #ifndef QUATERNARY_H
 #define QUATERNARY_H
+#include <memory>
 #include "expression.h"
 
 class Quaternary : public Expression {
@@ -13,10 +14,11 @@ public:
     Quaternary(Expression* condition, Expression* negative, Expression* zero, Expression* positive);
     double evaluate();
 private:
-    Expression* condition; // Stores the condition expression
-    Expression* negative;  // Stores the expression used when condition is negative
-    Expression* zero;      // Stores the expression used when condition is zero
-    Expression* positive;  // Stores the expression used when condition is positive
+    // Owns the condition and all three result expressions.
+    std::unique_ptr<Expression> condition;
+    std::unique_ptr<Expression> negative;
+    std::unique_ptr<Expression> zero;
+    std::unique_ptr<Expression> positive;
 };
 
 #endif

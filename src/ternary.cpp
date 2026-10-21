@@ -7,10 +7,8 @@
 #include "ternary.h"
 
 Ternary::Ternary(Expression* condition, Expression* trueExpression,
-                 Expression* falseExpression) {
-    this->condition = condition;
-    this->trueExpression = trueExpression;
-    this->falseExpression = falseExpression;
+                 Expression* falseExpression)
+    : condition(condition), trueExpression(trueExpression), falseExpression(falseExpression) {
 }
 
 double Ternary::evaluate() {

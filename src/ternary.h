@@ -6,6 +6,7 @@
 
 #ifndef TERNARY_H
 #define TERNARY_H
+#include <memory>
 #include "expression.h"
 
 class Ternary : public Expression {
@@ -13,9 +14,10 @@ public:
     Ternary(Expression* condition, Expression* trueExpression, Expression* falseExpression);
     double evaluate();
 private:
-    Expression* condition;       // Stores the condition expression
-    Expression* trueExpression;  // Stores the expression used when condition is not zero
-    Expression* falseExpression; // Stores the expression used when condition equals zero
+    // Owns the condition and both result expressions.
+    std::unique_ptr<Expression> condition;
+    std::unique_ptr<Expression> trueExpression;
+    std::unique_ptr<Expression> falseExpression;
 };
 
 #endif

@@ -6,8 +6,8 @@
 
 #include "negation.h"
 
-Negation::Negation(Expression* operand) {
-    this->operand = operand;
+Negation::Negation(Expression* operand)
+    : operand(operand) {
 }
 
 double Negation::evaluate() {

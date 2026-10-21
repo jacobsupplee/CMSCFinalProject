@@ -6,11 +6,8 @@
 
 #include "quaternary.h"
 
-Quaternary::Quaternary(Expression* condition, Expression* negative, Expression* zero, Expression* positive) {
-    this->condition = condition;
-    this->negative = negative;
-    this->zero = zero;
-    this->positive = positive;
+Quaternary::Quaternary(Expression* condition, Expression* negative, Expression* zero, Expression* positive)
+    : condition(condition), negative(negative), zero(zero), positive(positive) {
 }
 
 double Quaternary::evaluate() {

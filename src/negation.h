@@ -6,6 +6,7 @@
 
 #ifndef NEGATION_H
 #define NEGATION_H
+#include <memory>
 #include "expression.h"
 
 class Negation : public Expression {
@@ -14,7 +15,8 @@ public:
     double evaluate();
 
 private:
-    Expression* operand;
+    // Owns the operand and releases it automatically.
+    std::unique_ptr<Expression> operand;
 };
 
 #endif
