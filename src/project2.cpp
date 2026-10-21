@@ -32,7 +32,8 @@ int main(int argc, char* argv[]) {
     ifstream fin(inputFile);
     if (!fin.is_open()) {
         cout << "Could not open input file: " << inputFile << endl;
-        system("pause");
+        if (argc == 1)
+            system("pause");
         return 1;
     }
 
@@ -66,7 +67,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    system("pause");
+    if (argc == 1)
+        system("pause");
     return 0;
 }
 
