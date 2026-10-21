@@ -88,8 +88,12 @@ void parseAssignments(stringstream& in) {
 
         symbolTable.insert(variable, value);
 
-        if (delimiter == ';')
+        if (delimiter == ';') {
+            in >> ws;
+            if (in.peek() != char_traits<char>::eof())
+                throw runtime_error("Unexpected characters after ';'");
             return;
+        }
         if (delimiter != ',')
             throw runtime_error("Expected ',' or ';' after assignment");
     }
