@@ -3,8 +3,7 @@
 // Author: Jacob Supplee
 // October 2nd, 2026
 
-// This file contains the body of the function parseName. That function consumes all alphanumeric 
-// characters until the next whitespace and returns the name that those characters form.
+// Parses a variable name by consuming alphanumeric characters and underscores.
 
 #include <cctype>
 #include <sstream>
@@ -14,14 +13,14 @@ using namespace std;
 #include "parse.h"
 
 string parseName(stringstream& in) {
-    char alnum;
-    string name = "";
+    string name;
+    int next;
 
     in >> ws;
-    //Added functionality to handle underscores
-    while (isalnum(in.peek()) || in.peek() == '_') {
-        in >> alnum;
-        name += alnum;
+    while ((next = in.peek()) != char_traits<char>::eof() &&
+           (isalnum(static_cast<unsigned char>(next)) || next == '_')) {
+        name += static_cast<char>(in.get());
     }
+
     return name;
 }
