@@ -3,25 +3,32 @@
 // Author: Jacob Supplee
 // October 2nd, 2026
 
-// This file contains the class definition of the SymbolTable class. The symbol table is represented
-// with a vector (list) of type Symbol which is a pair consisting of a variable and its associated value.
-// The body of its functions are defined in symboltable.cpp. 
+// Defines the symbol table used to store initialized variables.
+
+#ifndef SYMBOLTABLE_H
+#define SYMBOLTABLE_H
+
+#include <string>
+#include <vector>
 
 class SymbolTable {
 public:
-    SymbolTable() {}
-    void insert(string variable, double value);
-    double lookUp(string variable) const;
-    void clear();  //Clears the symbol table between statements
+    SymbolTable() = default;
+    void insert(std::string variable, double value);
+    double lookUp(std::string variable) const;
+    void clear();
 
 private:
     struct Symbol {
-        Symbol(string variable, double value) {
-            this->variable = variable;
-            this->value = value;
+        Symbol(std::string variable, double value)
+            : variable(std::move(variable)), value(value) {
         }
-        string variable;
+
+        std::string variable;
         double value;
     };
-    vector<Symbol> elements;
+
+    std::vector<Symbol> elements;
 };
+
+#endif
