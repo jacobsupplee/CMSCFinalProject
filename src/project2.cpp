@@ -14,6 +14,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <memory>
 using namespace std;
 
 #include "expression.h"
@@ -28,7 +29,7 @@ void parseAssignments(stringstream& in);
 
 int main() {
 	const int SIZE = 256;
-	Expression* expression;
+	std::unique_ptr<Expression> expression;
     char paren, comma, line[SIZE];
 
 	ifstream fin;
@@ -50,7 +51,7 @@ int main() {
 		symbolTable.clear();
 
 		try {
-			expression = SubExpression::parse(in);
+			expression.reset(SubExpression::parse(in));
 			in >> comma;
 			parseAssignments(in);
 			double result = expression->evaluate();
