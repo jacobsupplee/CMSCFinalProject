@@ -3,13 +3,10 @@
 // Author: Jacob Supplee
 // October 2nd, 2026
 
-// This file contains the body of the functions contained in The SubExpression class, which includes
-// the constructor that initializes the left and right subexpressions and the static function parse
-// parses the subexpression. Addition and subtraction are the two operators that are implemented.
-
-//Student addition: all ten additional operators added to file 
+// This file contains the body of the functions contained in the SubExpression class.
 
 #include <iostream>
+#include <memory>
 #include <sstream>
 using namespace std;
 
@@ -18,7 +15,6 @@ using namespace std;
 #include "operand.h"
 #include "plus.h"
 #include "minus.h"
-//Below: new files
 #include "multiply.h"
 #include "divide.h"
 #include "modulus.h"
@@ -35,68 +31,56 @@ SubExpression::SubExpression(Expression* left, Expression* right)
 }
 
 Expression* SubExpression::parse(stringstream& in) {
-    Expression* left;
-    Expression* right;
     char operation, paren;
 
-    left = Operand::parse(in);
+    // Keep parsed children owned until a valid expression takes ownership.
+    unique_ptr<Expression> left(Operand::parse(in));
     in >> operation;
 
-    //Negation
     if (operation == '~') {
         in >> paren;
-        return new Negation(left);
+        return new Negation(left.release());
     }
 
-    //Ternary operation
     if (operation == '?') {
-        Expression* trueExpression = Operand::parse(in);
-        Expression* falseExpression = Operand::parse(in);
+        unique_ptr<Expression> trueExpression(Operand::parse(in));
+        unique_ptr<Expression> falseExpression(Operand::parse(in));
         in >> paren;
-        return new Ternary(left, trueExpression, falseExpression);
+        return new Ternary(left.release(), trueExpression.release(), falseExpression.release());
     }
 
-    // Quaternary operation
     if (operation == '#') {
-        Expression* negative = Operand::parse(in);
-        Expression* zero = Operand::parse(in);
-        Expression* positive = Operand::parse(in);
+        unique_ptr<Expression> negative(Operand::parse(in));
+        unique_ptr<Expression> zero(Operand::parse(in));
+        unique_ptr<Expression> positive(Operand::parse(in));
         in >> paren;
-        return new Quaternary(left, negative, zero, positive);
+        return new Quaternary(left.release(), negative.release(), zero.release(), positive.release());
     }
 
-    //Binary operators
-    right = Operand::parse(in);
+    unique_ptr<Expression> right(Operand::parse(in));
     in >> paren;
 
     switch (operation) {
         case '+':
-            return new Plus(left, right);
-
+            return new Plus(left.release(), right.release());
         case '-':
-            return new Minus(left, right);
-
+            return new Minus(left.release(), right.release());
         case '*':
-            return new Multiply(left, right);
-
+            return new Multiply(left.release(), right.release());
         case '/':
-            return new Divide(left, right);
-
+            return new Divide(left.release(), right.release());
         case '%':
-            return new Modulus(left, right);
-
+            return new Modulus(left.release(), right.release());
         case '^':
-            return new Power(left, right);
-
+            return new Power(left.release(), right.release());
         case '<':
-            return new Minimum(left, right);
-
+            return new Minimum(left.release(), right.release());
         case '>':
-            return new Maximum(left, right);
-
+            return new Maximum(left.release(), right.release());
         case '&':
-            return new Average(left, right);
+            return new Average(left.release(), right.release());
     }
 
-    return 0;
+    // Unknown operators release the parsed children automatically.
+    return nullptr;
 }
