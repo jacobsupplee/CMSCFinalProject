@@ -3,15 +3,11 @@
 // Author: Jacob Supplee
 // October 2nd, 2026
 
-// This file contains the body of the function parseName contained in the Operand class. That function
-// parses the next token. When the next non-whitespace character is a digit, it assumes a literal is next. 
-// When the next character is a left parenthesis, a recursive call is made to parse the subexpression.
-// Otherwise the next token is assumed to a variable. No checks are made to ensure correct syntax.
+// Parses an operand as a literal, nested expression, or variable.
 
 #include <cctype>
-#include <iostream>
 #include <sstream>
-#include <list>
+#include <stdexcept>
 #include <string>
 using namespace std;
 
@@ -24,19 +20,28 @@ using namespace std;
 
 Expression* Operand::parse(stringstream& in) {
     char paren;
-    double value;  //Changed from int to double to support floating-point values
+    double value;
+
     in >> ws;
-    //Changes to allow whole-number and decimal values
-    if (isdigit(in.peek()) || in.peek() == '.') {
-        in >> value;
-        Expression* literal = new Literal(value);
-        return literal;
+    int next = in.peek();
+
+    if (next == char_traits<char>::eof())
+        throw runtime_error("Expected an operand");
+
+    if (isdigit(static_cast<unsigned char>(next)) || next == '.') {
+        if (!(in >> value))
+            throw runtime_error("Invalid numeric literal");
+        return new Literal(value);
     }
-    if (in.peek() == '(') {
+
+    if (next == '(') {
         in >> paren;
         return SubExpression::parse(in);
     }
-    else
-        return new Variable(parseName(in));
-    return 0;
+
+    string name = parseName(in);
+    if (name.empty())
+        throw runtime_error("Invalid operand");
+
+    return new Variable(name);
 }
