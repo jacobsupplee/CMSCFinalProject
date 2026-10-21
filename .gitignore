@@ -21,3 +21,6 @@
 # User-specific settings
 *.user
 *.suo
+
+# Generated regression output
+/tests/actual.txt
