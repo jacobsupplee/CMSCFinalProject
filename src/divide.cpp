@@ -4,6 +4,7 @@
 //CMSC 330 Advanced Programming Languages
 //File Description: Implementation of the Divide class.
 
+#include <stdexcept>
 #include "divide.h"
 
 Divide::Divide(Expression* left, Expression* right)
@@ -11,5 +12,11 @@ Divide::Divide(Expression* left, Expression* right)
 }
 
 double Divide::evaluate() {
-    return left->evaluate() / right->evaluate();
+    double numerator = left->evaluate();
+    double denominator = right->evaluate();
+
+    if (denominator == 0.0)
+        throw std::runtime_error("Division by zero");
+
+    return numerator / denominator;
 }
