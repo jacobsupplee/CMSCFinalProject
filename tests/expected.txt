@@ -1,6 +1,22 @@
 (a + b), a = 2, b = 3; Value = 5
 (a * b), a = 4, b = 5; Value = 20
 (a / b), a = 10, b = 2; Value = 5
+(a % b), a = 6, b = 4; Value = 2
+(a ^ b), a = 2, b = 3; Value = 8
+(a ~), a = 5; Value = -5
+(a < b), a = 3, b = 7; Value = 3
+(a > b), a = 3, b = 7; Value = 7
+(a & b), a = 4, b = 8; Value = 6
+(f ? 1 2), f = 0; Value = 2
+(f ? 1 2), f = 1; Value = 1
+(g # 1 2 3), g = -1; Value = 1
+(g # 1 2 3), g = 0; Value = 2
+(g # 1 2 3), g = 2; Value = 3
 (a / b), a = 2, b = 0; Invalid input: Division by zero
+(a % b), a = 2, b = 0; Invalid input: Modulo by zero
 (a + ), a = 2; Invalid input: Invalid operand
 (a + 2, a = 2; Invalid input: Expected closing parenthesis
+(x + 1), y = 2; The variable x is not initialized
+(a + 1), a = 1, a = 2; The variable a has already been initialized
+(a + 1), a = ; Invalid input: Invalid numeric value for variable a
+(a + 1), a = 2; unexpected; Invalid input: Unexpected characters after ';'
