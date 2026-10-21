@@ -1,0 +1,6 @@
+(a + b), a = 2, b = 3; Value = 5
+(a * b), a = 4, b = 5; Value = 20
+(a / b), a = 10, b = 2; Value = 5
+(a / b), a = 2, b = 0; Invalid input: Division by zero
+(a + ), a = 2; Invalid input: Invalid operand
+(a + 2, a = 2; Invalid input: Expected closing parenthesis
