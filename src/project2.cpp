@@ -54,7 +54,8 @@ int main() {
                 throw runtime_error("Expected ',' before variable assignments");
 
             parseAssignments(in);
-            cout << "Value = " << expression->evaluate() << endl;
+            double value = expression->evaluate();
+            cout << "Value = " << value << endl;
         }
         catch (const VariableException& exception) {
             cout << exception.what() << endl;
