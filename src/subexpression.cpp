@@ -5,9 +5,9 @@
 
 // This file contains the body of the functions contained in the SubExpression class.
 
-#include <iostream>
 #include <memory>
 #include <sstream>
+#include <stdexcept>
 using namespace std;
 
 #include "expression.h"
@@ -31,21 +31,28 @@ SubExpression::SubExpression(Expression* left, Expression* right)
 }
 
 Expression* SubExpression::parse(stringstream& in) {
-    char operation, paren;
+    char operation;
 
-    // Keep parsed children owned until a valid expression takes ownership.
+    auto expectClosingParen = [&in]() {
+        char paren;
+        if (!(in >> paren) || paren != ')')
+            throw runtime_error("Expected closing parenthesis");
+    };
+
     unique_ptr<Expression> left(Operand::parse(in));
-    in >> operation;
+
+    if (!(in >> operation))
+        throw runtime_error("Expected an operator");
 
     if (operation == '~') {
-        in >> paren;
+        expectClosingParen();
         return new Negation(left.release());
     }
 
     if (operation == '?') {
         unique_ptr<Expression> trueExpression(Operand::parse(in));
         unique_ptr<Expression> falseExpression(Operand::parse(in));
-        in >> paren;
+        expectClosingParen();
         return new Ternary(left.release(), trueExpression.release(), falseExpression.release());
     }
 
@@ -53,12 +60,27 @@ Expression* SubExpression::parse(stringstream& in) {
         unique_ptr<Expression> negative(Operand::parse(in));
         unique_ptr<Expression> zero(Operand::parse(in));
         unique_ptr<Expression> positive(Operand::parse(in));
-        in >> paren;
+        expectClosingParen();
         return new Quaternary(left.release(), negative.release(), zero.release(), positive.release());
     }
 
+    switch (operation) {
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '%':
+        case '^':
+        case '<':
+        case '>':
+        case '&':
+            break;
+        default:
+            throw runtime_error(string("Unknown operator: ") + operation);
+    }
+
     unique_ptr<Expression> right(Operand::parse(in));
-    in >> paren;
+    expectClosingParen();
 
     switch (operation) {
         case '+':
@@ -81,6 +103,5 @@ Expression* SubExpression::parse(stringstream& in) {
             return new Average(left.release(), right.release());
     }
 
-    // Unknown operators release the parsed children automatically.
-    return nullptr;
+    throw runtime_error("Invalid expression");
 }
