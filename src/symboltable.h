@@ -21,7 +21,7 @@ public:
 private:
     struct Symbol {
         Symbol(std::string variable, double value)
-            : variable(std::move(variable)), value(value) {
+            : variable(variable), value(value) {
         }
 
         std::string variable;
