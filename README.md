@@ -1,15 +1,16 @@
 # C++ Expression Evaluator
 
-A C++ expression evaluator built around an object-oriented expression hierarchy. It reads statements from `input.txt`, parses nested expressions, resolves variables through a symbol table, and evaluates the result. Developed as an extension of the UMGC CMSC 330 course-provided project skeleton.
+A C++ expression evaluator built around an object-oriented expression hierarchy. It reads statements from a text file, parses nested expressions, resolves variables through a symbol table, and evaluates each result. Originally developed from the UMGC CMSC 330 course-provided project skeleton and extended with additional validation, error handling, and regression tests.
 
 ## Features
 
-- **Expression hierarchy:** dedicated classes for literals, variables, and operations, using inheritance and polymorphic evaluation
+- **Object-oriented design:** dedicated expression classes using inheritance and polymorphism
 - **Operators:** arithmetic, exponentiation, minimum, maximum, average, unary negation, ternary selection, and quaternary sign-based selection
 - **Floating-point support:** decimal literals and variable assignments evaluated as `double`
-- **Variable management:** symbol-table insertion, lookup, and clearing between statements
-- **Error handling:** custom `VariableException` messages for uninitialized variables and duplicate assignments
-- **Input processing:** reads one expression-and-assignment statement per line from a text file
+- **Variable management:** symbol-table insertion, lookup, duplicate detection, and reset between statements
+- **Input validation:** reports malformed expressions, invalid assignments, and unexpected trailing characters
+- **Error handling:** handles division by zero, modulo by zero, uninitialized variables, and duplicate assignments
+- **Regression tests:** automated output comparison for 22 valid and invalid input cases
 
 ## Operators
 
@@ -23,19 +24,58 @@ A C++ expression evaluator built around an object-oriented expression hierarchy.
 
 ## Input Format
 
-Each line contains a parenthesized expression followed by comma-separated variable assignments. Nested expressions are supported.
+Each line contains a parenthesized expression, a comma, variable assignments, and a semicolon terminator. Nested expressions are supported.
 
 ```text
 ((x * 2.6) + (y - 3)), x = 1.5, y = 6;
 ```
 
-The evaluator prints the original statement and its result:
+Example output:
 
 ```text
 ((x * 2.6) + (y - 3)), x = 1.5, y = 6; Value = 6.9
 ```
 
-Each statement starts with a cleared symbol table, so assignments from one line do not carry over to the next. Repeated assignments within the same statement and references to variables that were not assigned produce a `VariableException` message.
+Each statement starts with a cleared symbol table, so assignments from one line do not carry over to the next.
+
+## Build and Run on Windows
+
+Use the **Developer Command Prompt for Visual Studio** with the C++ build tools installed. From the repository directory, compile the program:
+
+```cmd
+cl /EHsc /std:c++17 /Fe:Project2.exe src\*.cpp
+```
+
+Run the default sample input:
+
+```cmd
+.\Project2.exe
+```
+
+To select a different input file:
+
+```cmd
+.\Project2.exe input.txt
+```
+
+The default run reads `input.txt`. When an input filename is provided, the program reads that file instead.
+
+## Run Regression Tests
+
+The regression suite compiles the source, runs 22 test cases, and compares the output against the expected results.
+
+```cmd
+run_tests.bat
+```
+
+A successful run ends with:
+
+```text
+FC: no differences encountered
+All regression tests passed.
+```
+
+The tests cover arithmetic and custom operators, conditional expressions, division and modulo by zero, malformed expressions, uninitialized variables, duplicate assignments, invalid numeric values, and unexpected trailing input.
 
 ## Project Structure
 
@@ -45,19 +85,14 @@ Each statement starts with a cleared symbol table, so assignments from one line 
 - `src/variableException.*` — custom variable-related exception
 - Other files in `src/` — expression and operator classes
 - `input.txt` — sample expressions and variable assignments
-
-## Run
-
-1. Open the project in **Eclipse CDT** with a compatible C++ toolchain.
-2. Build the project.
-3. Run the executable from the project directory so it can find `input.txt`.
-
-The current parser expects input to follow the supported expression syntax; general malformed-expression diagnostics are not implemented.
+- `tests/input.txt` — regression test input cases
+- `tests/expected.txt` — expected output for regression comparison
+- `run_tests.bat` — Windows build and regression test script
 
 ## Technical Concepts
 
-C++, object-oriented programming, inheritance, polymorphism, expression parsing, recursive expression evaluation, symbol tables, file I/O, and exception handling.
+C++, object-oriented programming, inheritance, polymorphism, recursive parsing and evaluation, symbol tables, file I/O, exception handling, input validation, and regression testing.
 
 ## Academic Context
 
-Originally developed for UMGC CMSC 330 (Advanced Programming Languages) and extended with additional operators, floating-point support, variable error handling, and symbol-table reset behavior. Course-provided skeleton files retain their original attribution.
+Originally developed for UMGC CMSC 330 (Advanced Programming Languages) and extended with additional operators, floating-point support, variable error handling, input validation, and regression tests. Course-provided skeleton files retain their original attribution.
